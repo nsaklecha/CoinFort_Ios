@@ -28,7 +28,7 @@ class ApplicationController : Subscriber, Trackable {
     private var kvStoreCoordinator: KVStoreCoordinator?
     private var accountViewController: AccountViewController?
     fileprivate var application: UIApplication?
-    private let watchSessionManager = PhoneWCSessionManager()
+  
     private var urlController: URLController?
     private var defaultsUpdater: UserDefaultsUpdater?
     private var reachability = ReachabilityMonitor()
@@ -208,10 +208,7 @@ class ApplicationController : Subscriber, Trackable {
                     self?.performBackgroundFetch()
                 }
             }
-            exchangeUpdater?.refresh(completion: {
-                self.watchSessionManager.walletManager = self.walletManager
-                self.watchSessionManager.rate = self.store.state.currentRate
-            })
+            
         }
     }
 
@@ -256,10 +253,7 @@ class ApplicationController : Subscriber, Trackable {
         feeUpdater?.refresh()
         defaultsUpdater?.refresh()
         walletManager?.apiClient?.events?.up()
-        exchangeUpdater?.refresh(completion: {
-            self.watchSessionManager.walletManager = self.walletManager
-            self.watchSessionManager.rate = self.store.state.currentRate
-        })
+        
     }
 
     private func addWalletCreationListener() {
